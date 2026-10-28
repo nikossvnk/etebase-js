@@ -23,11 +23,15 @@ contribute to its development!
 This repository is the JavaScript/TypeScript library for communication with an
 [Etebase server](https://github.com/nikossvnk/etesync-server), which you run yourself.
 
-It isn't published to npm; install it from this repository instead (it's built on install):
+It isn't published to npm; install it from a [release](https://github.com/nikossvnk/etebase-js/releases)
+instead, which has the library already built (`etebase-<version>.tgz`, with its SHA-256 checksum next to it):
 
 ```shell
-npm install github:nikossvnk/etebase-js
+npm install https://github.com/nikossvnk/etebase-js/releases/download/v0.44.0/etebase-0.44.0.tgz
 ```
+
+The package's name is `etebase`, so it's imported the same way as the original. A release is made by
+pushing a version tag (e.g. `v0.44.0`) that matches the version in `package.json`.
 
 The following is a minimal example of how to change the Etebase password. There is no default server,
 so the server's URL has to be passed to `login` and `signup`.

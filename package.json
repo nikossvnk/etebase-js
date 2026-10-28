@@ -7,7 +7,9 @@
   "module": "dist/lib/Etebase.js",
   "browser": "dist/umd/Etebase.js",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "!dist/**/*.test.*",
+    "!dist/**/TestConstants.*"
   ],
   "types": "dist/lib/Etebase.d.ts",
   "scripts": {
