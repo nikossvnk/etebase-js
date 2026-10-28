@@ -88,6 +88,9 @@ it("Check server is etebase", async () => {
   expect(await Etebase.Account.isEtebaseServer(testApiBase + "/api/")).toBeFalsy();
   await expect(Etebase.Account.isEtebaseServer("http://doesnotexist")).rejects.toBeInstanceOf(Error);
   await expect(Etebase.Account.login(USER2.username, USER2.password, testApiBase + "/api/")).rejects.toBeInstanceOf(Etebase.NotFoundError);
+  // There is no default server
+  await expect(Etebase.Account.login(USER2.username, USER2.password, "")).rejects.toBeInstanceOf(Etebase.ProgrammingError);
+  await expect(Etebase.Account.signup({ username: "test_user3", email: "test3@localhost" }, USER2.password, "")).rejects.toBeInstanceOf(Etebase.ProgrammingError);
 });
 
 it("Getting dashboard url", async () => {

@@ -1,7 +1,5 @@
 import URI from "urijs";
 
-import * as Constants from "./Constants";
-
 import { deriveKey, concatArrayBuffers, BoxCryptoManager, ready } from "./Crypto";
 export { ready, getPrettyFingerprint, _setRnSodium, deriveKey, KeyDerivationDifficulty } from "./Crypto";
 import { ConflictError, UnauthorizedError } from "./Exceptions";
@@ -74,10 +72,12 @@ export class Account {
     return authenticator.isEtebase();
   }
 
-  public static async signup(user: User, password: string, serverUrl?: string) {
+  public static async signup(user: User, password: string, serverUrl: string) {
     await ready;
 
-    serverUrl = serverUrl ?? Constants.SERVER_URL;
+    if (!serverUrl) {
+      throw new ProgrammingError("A server URL is required.");
+    }
     const authenticator = new Authenticator(serverUrl);
     const version = CURRENT_VERSION;
     const salt = randomBytes(32);
@@ -102,10 +102,12 @@ export class Account {
     return ret;
   }
 
-  public static async login(username: string, password: string, serverUrl?: string) {
+  public static async login(username: string, password: string, serverUrl: string) {
     await ready;
 
-    serverUrl = serverUrl ?? Constants.SERVER_URL;
+    if (!serverUrl) {
+      throw new ProgrammingError("A server URL is required.");
+    }
     const authenticator = new Authenticator(serverUrl);
     let loginChallenge;
     try {

@@ -6,17 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
-### Added
-
 ### Changed
 
-### Deprecated
+- `Account.login` and `Account.signup` need the server's URL: there is no default server anymore.
+- `removedMemberships` of a collection list can be `null`, as the server sends it.
+- Built with npm instead of yarn, TypeScript 5.9, webpack 5.112, ESLint 10 and Jest 30, so the build
+  works on current versions of Node.
 
 ### Removed
 
-### Fixed
-
-### Security
+- The hosted server's URL (`SERVER_URL`).
 
 ## Version 0.43.0 - 2021-07-07
 
