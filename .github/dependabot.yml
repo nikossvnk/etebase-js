@@ -1,0 +1,33 @@
+# Opens pull requests to update the dependencies. The Check workflow runs on them, so an update
+# that breaks the library is noticed before it is merged.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      # Pinned to an exact version by the original project, as everything is encrypted with it.
+      # Updating it is done by hand, with the tests against a server.
+      - dependency-name: "libsodium-wrappers"
+      # node-fetch 3 is only an ES module, which the CommonJS build can't require()
+      - dependency-name: "node-fetch"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: npm
+    directory: /react-native-etebase
+    schedule:
+      interval: monthly
+    groups:
+      react-native:
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
