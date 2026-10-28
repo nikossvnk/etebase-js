@@ -533,7 +533,7 @@ export class EncryptedCollection {
     if (!this.collectionType) {
       const cryptoManager = this.getCryptoManager(parentCryptoManager);
       const meta = this.getMeta(cryptoManager);
-      return meta.type!!;
+      return meta.type!;
     }
     return parentCryptoManager.colTypeFromUid(this.collectionType);
   }

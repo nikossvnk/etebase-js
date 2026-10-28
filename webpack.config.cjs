@@ -28,4 +28,6 @@ module.exports = {
     umdNamedDefine: true,
   },
   mode: "production",
+  // A library bundle, the size warnings are for apps
+  performance: { hints: false },
 };

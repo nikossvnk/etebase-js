@@ -6,7 +6,14 @@ interface Response {
   body: Uint8Array;
 }
 
-async function request(url: string, options: RequestInit = {}): Promise<Response> {
+// Only what this library sends: msgpack bodies with string headers
+export interface RequestOptions {
+  method?: string;
+  headers?: { [key: string]: string };
+  body?: Uint8Array;
+}
+
+async function request(url: string, options: RequestOptions = {}): Promise<Response> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(options.method?.toUpperCase() ?? "GET", url, true);
@@ -14,7 +21,7 @@ async function request(url: string, options: RequestInit = {}): Promise<Response
 
     if (options.headers) {
       for (const x of Object.keys(options.headers)) {
-        xhr.setRequestHeader(x, options.headers[x].toString());
+        xhr.setRequestHeader(x, options.headers[x]);
       }
     }
 
@@ -42,11 +49,12 @@ async function request(url: string, options: RequestInit = {}): Promise<Response
       setTimeout(() => reject(new DOMException("Aborted", "AbortError")), 0);
     };
 
-    xhr.send(options.body);
+    // The bodies are never backed by a SharedArrayBuffer
+    xhr.send(options.body as Uint8Array<ArrayBuffer> | undefined);
   });
 }
 
-async function requestNode(url: string, options: RequestInit = {}): Promise<Response> {
+async function requestNode(url: string, options: RequestOptions = {}): Promise<Response> {
   const fetch = await require("node-fetch");
   const response = await fetch(url, options as any);
   const ret = {

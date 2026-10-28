@@ -993,7 +993,7 @@ it("Item fetch updates", async () => {
   }
 
 
-  let stoken: string | null = null;
+  let stoken: string | null;
 
   {
     const newCol = await collectionManager.fetch(col.uid);
@@ -1250,7 +1250,8 @@ it("Collection invitations", async () => {
     const collections = await collectionManager2.list(colType, { stoken });
     expect(collections.data.length).toBe(1);
     expect(collections.data[0].uid).toEqual(col.uid);
-    expect(collections.removedMemberships).not.toBeDefined();
+    // The server sends null rather than leaving it out
+    expect(collections.removedMemberships ?? undefined).not.toBeDefined();
   }
 
   // Remove

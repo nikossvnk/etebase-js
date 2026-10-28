@@ -220,7 +220,7 @@ export class Account {
 
     const content: AccountData = {
       user: this.user,
-      authToken: this.authToken!!,
+      authToken: this.authToken!,
       serverUrl: this.serverUrl,
       version: this.version,
       key: cryptoManager.encrypt(this.mainKey),

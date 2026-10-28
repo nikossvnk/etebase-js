@@ -1,4 +1,4 @@
-import request from "./Request";
+import request, { RequestOptions } from "./Request";
 import WebSocket from "isomorphic-ws";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
@@ -61,7 +61,7 @@ export interface CollectionItemListResponse<T> extends ListResponse<T> {
 }
 
 export interface CollectionListResponse<T> extends CollectionItemListResponse<T> {
-  removedMemberships?: RemovedCollection[];
+  removedMemberships?: RemovedCollection[] | null;
 }
 
 export interface IteratorListResponse<T> extends ListResponse<T> {
@@ -144,7 +144,7 @@ class BaseNetwork {
     this.apiBase = URI(apiBase).normalize();
   }
 
-  public async newCall<T = any>(segments: string[] = [], extra: RequestInit = {}, apiBaseIn: URI = this.apiBase): Promise<T> {
+  public async newCall<T = any>(segments: string[] = [], extra: RequestOptions = {}, apiBaseIn: URI = this.apiBase): Promise<T> {
     const apiBase = urlExtend(apiBaseIn, segments);
 
     extra = {
@@ -321,7 +321,7 @@ class BaseManager extends BaseNetwork {
     this.apiBase = urlExtend(this.apiBase, ["api", "v1"].concat(segments));
   }
 
-  public newCall<T = any>(segments: string[] = [], extra: RequestInit = {}, apiBase: URI = this.apiBase): Promise<T> {
+  public newCall<T = any>(segments: string[] = [], extra: RequestOptions = {}, apiBase: URI = this.apiBase): Promise<T> {
     extra = {
       ...extra,
       headers: {
