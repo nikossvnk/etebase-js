@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+## Version 0.44.1 - 2026-10-28
+
+### Added
+
+- react-native-etebase is released too, as `react-native-etebase-<version>.tgz`, with the version of
+  etebase (it was 0.1.5).
+
 ## Version 0.44.0 - 2026-10-28
 
 ### Added

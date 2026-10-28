@@ -1,8 +1,9 @@
 name: Release
 
-# Pushing a version tag (e.g. v0.44.0) checks and builds the library, and publishes it as a release:
-# etebase-<version>.tgz (made by npm pack, with the build in dist/), which npm can install from its
-# URL, with its checksum.
+# Pushing a version tag (e.g. v0.44.1) checks and builds the library, and publishes it as a release:
+# etebase-<version>.tgz and react-native-etebase-<version>.tgz (made by npm pack, with the build in
+# dist/), which npm can install from their URLs, with their checksums. Both packages have the
+# version of the tag.
 on:
   push:
     tags: ["v[0-9]+.[0-9]+.[0-9]+"]
@@ -27,13 +28,15 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Check that the version of the library is the one of the tag
+      - name: Check that the versions of the packages are the one of the tag
         run: |
-          version=$(node -p 'require("./package.json").version')
-          if [ "v$version" != "$TAG" ]; then
-            echo "package.json has version $version, but the tag is $TAG" >&2
-            exit 1
-          fi
+          for package in package.json react-native-etebase/package.json; do
+            version=$(node -p "require('./$package').version")
+            if [ "v$version" != "$TAG" ]; then
+              echo "$package has version $version, but the tag is $TAG" >&2
+              exit 1
+            fi
+          done
 
       - run: npm ci --no-audit --no-fund
 
@@ -48,17 +51,20 @@ jobs:
 
       - name: Package
         run: |
-          # npm pack builds it again, with the prepare script, whose output goes to stdout too
+          # npm pack builds them again, with the prepare scripts, whose output goes to stdout too.
+          # react-native-etebase is built against the library in the parent folder.
           mkdir release
           npm pack --pack-destination release
+          (cd react-native-etebase && npm ci --no-audit --no-fund && npm pack --pack-destination ../release)
           cd release
-          file=$(ls etebase-*.tgz)
-          tar -tzf "$file" | grep -qx 'package/dist/lib-cjs/Etebase.js'
-          sha256sum "$file" > "$file.sha256"
-          echo "FILE=release/$file" >> "$GITHUB_ENV"
+          tar -tzf "etebase-${TAG#v}.tgz" | grep -qx 'package/dist/lib-cjs/Etebase.js'
+          tar -tzf "react-native-etebase-${TAG#v}.tgz" | grep -qx 'package/dist/Etebase.js'
+          for file in *.tgz; do
+            sha256sum "$file" > "$file.sha256"
+          done
 
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$TAG" "$FILE" "$FILE.sha256" --repo "$GITHUB_REPOSITORY" --title "$TAG" --generate-notes
+          gh release create "$TAG" release/* --repo "$GITHUB_REPOSITORY" --title "$TAG" --generate-notes
