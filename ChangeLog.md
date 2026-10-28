@@ -6,12 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+## Version 0.44.0 - 2026-10-28
+
+### Added
+
+- Releases on GitHub, made by a workflow for version tags: `etebase-<version>.tgz` installs with npm
+  from its URL. It isn't published to npm.
+
 ### Changed
 
 - `Account.login` and `Account.signup` need the server's URL: there is no default server anymore.
 - `removedMemberships` of a collection list can be `null`, as the server sends it.
-- Built with npm instead of yarn, TypeScript 5.9, webpack 5.112, ESLint 10 and Jest 30, so the build
-  works on current versions of Node.
+- Built with npm instead of yarn, TypeScript 5.9, webpack 5.112, ESLint 10, Jest 30 and Babel 8, so
+  the build works on current versions of Node.
+- isomorphic-ws 5.
+- The package leaves out the compiled tests.
 
 ### Removed
 
