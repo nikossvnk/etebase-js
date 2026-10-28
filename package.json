@@ -36,7 +36,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/jest": "^30.0.0",
     "@types/libsodium-wrappers": "^0.7.14",
-    "@types/node": "^24.19.2",
+    "@types/node": "^26.6.5",
     "babel-jest": "^30.5.2",
     "eslint": "^10.13.0",
     "globals": "^17.13.0",
