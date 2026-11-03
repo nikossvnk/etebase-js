@@ -3,6 +3,7 @@ import { USER } from "./TestConstants";
 
 import { fromBase64, toBase64, fromString } from "./Helpers";
 import { CURRENT_VERSION } from "./Constants";
+import { AccountCryptoManager, CollectionCryptoManager, EncryptedCollectionItem } from "./EncryptedModels";
 
 beforeAll(async () => {
   await ready;
@@ -36,6 +37,24 @@ it("Symmetric encryption", () => {
   const cryptoMac = cryptoManager.getCryptoMac();
   cryptoMac.update(new Uint8Array(4));
   expect(cryptoMac.finalize()).toEqual(fromBase64("y5nYZ75gDUna4bnaAHobXUlgQoTKOnueNW_KCYxcAg4"));
+});
+
+it("Content with duplicate chunks round trips", async () => {
+  const accountCryptoManager = new AccountCryptoManager(fromBase64(USER.key));
+  const colCryptoManager = new CollectionCryptoManager(accountCryptoManager, new Uint8Array(32));
+
+  // A long run of identical bytes is split at the maximum chunk size into identical chunks, which are deduplicated.
+  const content = new Uint8Array(600 * 1024);
+  content.set(fromString("Unique prefix so that the first chunk differs"), 0);
+  content.set(fromString("Unique suffix so that the last chunk differs"), content.length - 100);
+
+  // The shuffle is random, so try a few times.
+  for (let i = 0 ; i < 10 ; i++) {
+    const item = await EncryptedCollectionItem.create(colCryptoManager, { name: "Item" }, content);
+    const itemCryptoManager = item.getCryptoManager(colCryptoManager);
+    expect(item.serialize().content.chunks.length).toBeLessThan(10);
+    expect(await item.getContent(itemCryptoManager)).toEqual(content);
+  }
 });
 
 it("Deterministic encryption", () => {

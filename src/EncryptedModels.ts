@@ -311,21 +311,25 @@ class EncryptedRevision<CM extends CollectionItemCryptoManager> {
 
     // Shuffle the items and save the ordering if we have more than one
     if (chunks.length > 0) {
-      const indices = shuffle(chunks);
+      // indices[originalPosition] = position in the shuffled list
+      let indices = shuffle(chunks);
 
-      // Filter duplicates and construct the indice list.
+      // Filter duplicates and map each shuffled position to its chunk's position in the deduplicated list.
       const uidIndices = new Map<string, number>();
-      chunks = chunks.filter((chunk, i) => {
+      const dedupedIndices: number[] = [];
+      const dedupedChunks: [base64, Uint8Array][] = [];
+      for (const chunk of chunks) {
         const uid = chunk[0];
-        const previousIndex = uidIndices.get(uid);
-        if (previousIndex !== undefined) {
-          indices[i] = previousIndex;
-          return false;
-        } else {
-          uidIndices.set(uid, i);
-          return true;
+        let dedupedIndex = uidIndices.get(uid);
+        if (dedupedIndex === undefined) {
+          dedupedIndex = dedupedChunks.length;
+          uidIndices.set(uid, dedupedIndex);
+          dedupedChunks.push(chunk);
         }
-      });
+        dedupedIndices.push(dedupedIndex);
+      }
+      chunks = dedupedChunks;
+      indices = indices.map((shuffledIndex) => dedupedIndices[shuffledIndex]);
 
       // If we have more than one chunk we need to encode the mapping header in the last chunk
       if (indices.length > 1) {

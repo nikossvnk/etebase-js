@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+### Fixed
+
+- Content with duplicate chunks (a repeated run of 16 KiB or more in one item) is written with a correct
+  chunk index header. It used to be written with a broken one, so the item couldn't be read back.
+
 ## Version 0.44.1 - 2026-10-28
 
 ### Added
