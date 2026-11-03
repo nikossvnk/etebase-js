@@ -27,18 +27,18 @@ It isn't published to npm; install it from a [release](https://github.com/nikoss
 instead, which has the library already built (`etebase-<version>.tgz`, with its SHA-256 checksum next to it):
 
 ```shell
-npm install https://github.com/nikossvnk/etebase-js/releases/download/v0.44.1/etebase-0.44.1.tgz
+npm install https://github.com/nikossvnk/etebase-js/releases/download/v0.44.2/etebase-0.44.2.tgz
 ```
 
 For React Native, also `react-native-etebase` from the same release, which gives etebase React
 Native's sodium and random numbers (import it once, before etebase):
 
 ```shell
-npm install https://github.com/nikossvnk/etebase-js/releases/download/v0.44.1/react-native-etebase-0.44.1.tgz
+npm install https://github.com/nikossvnk/etebase-js/releases/download/v0.44.2/react-native-etebase-0.44.2.tgz
 ```
 
 The packages' names are `etebase` and `react-native-etebase`, so they're imported the same way as the
-original ones. A release is made by pushing a version tag (e.g. `v0.44.1`) that matches the version in
+original ones. A release is made by pushing a version tag (e.g. `v0.44.2`) that matches the version in
 `package.json` and in `react-native-etebase/package.json`.
 
 The following is a minimal example of how to change the Etebase password. There is no default server,

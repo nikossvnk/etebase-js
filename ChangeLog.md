@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+## Version 0.44.2 - 2026-11-03
+
 ### Fixed
 
 - Content with duplicate chunks (a repeated run of 16 KiB or more in one item) is written with a correct
