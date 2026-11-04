@@ -28,7 +28,7 @@
     "node-fetch": "^2.7.0",
     "reconnecting-websocket": "^4.4.0",
     "urijs": "^1.19.11",
-    "ws": "^7.5.13"
+    "ws": "^8.22.1"
   },
   "devDependencies": {
     "@babel/core": "^8.0.9",
