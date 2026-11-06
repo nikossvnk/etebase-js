@@ -170,11 +170,13 @@ export class Account {
 
   public async logout() {
     const authenticator = new Authenticator(this.serverUrl);
+    const authToken = this.authToken!;
 
-    authenticator.logout(this.authToken!);
+    // Clear the local state first, so it's cleared even if invalidating the token on the server fails
     this.version = -1;
     this.mainKey = new Uint8Array();
     this.authToken = null;
+    await authenticator.logout(authToken);
   }
 
   public async changePassword(password: string) {

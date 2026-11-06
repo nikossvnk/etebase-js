@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+### Fixed
+
+- `Account.logout` waits for the server to invalidate the token, and rejects if that fails (e.g.
+  `UnauthorizedError` for a token that's no longer valid, `NetworkError` when offline). It used to
+  return before that, so the failure was an unhandled rejection that callers couldn't catch. The
+  local state is still cleared right away, also when the server call fails.
+
 ## Version 0.44.2 - 2026-11-03
 
 ### Fixed

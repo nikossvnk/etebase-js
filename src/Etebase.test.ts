@@ -93,6 +93,15 @@ it("Check server is etebase", async () => {
   await expect(Etebase.Account.signup({ username: "test_user3", email: "test3@localhost" }, USER2.password, "")).rejects.toBeInstanceOf(Etebase.ProgrammingError);
 });
 
+it("Logout reports a failure to invalidate the token, and still logs out locally", async () => {
+  const etebase2 = await Etebase.Account.restore(USER.storedSession, fromBase64(sessionStorageKey));
+  etebase2.serverUrl = testApiBase;
+  etebase2.authToken = "invalid-token";
+
+  await expect(etebase2.logout()).rejects.toBeInstanceOf(Etebase.UnauthorizedError);
+  expect(etebase2.authToken).toBeNull();
+});
+
 it("Getting dashboard url", async () => {
   let url: string | undefined;
   try {
