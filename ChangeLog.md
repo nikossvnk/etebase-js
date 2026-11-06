@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased version
 
+## Version 0.44.3 - 2026-11-06
+
 ### Fixed
 
 - `Account.logout` waits for the server to invalidate the token, and rejects if that fails (e.g.
