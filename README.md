@@ -21,7 +21,7 @@ contribute to its development!
 # Using Etebase in your project
 
 This repository is the JavaScript/TypeScript library for communication with an
-[Etebase server](https://github.com/nikossvnk/etesync-server), which you run yourself.
+[Etebase server](https://github.com/nikossvnk/ciphwren-server), which you run yourself.
 
 It isn't published to npm; install it from a [release](https://github.com/nikossvnk/etebase-js/releases)
 instead, which has the library already built (`etebase-<version>.tgz`, with its SHA-256 checksum next to it):
@@ -60,11 +60,11 @@ If you get build errors complaining about `export = URI;` from urijs then you ne
 
 # Projects that use Etebase
 
-* [EteSync Notes](https://github.com/nikossvnk/etesync-notes) - end-to-end encrypted notes and
+* [Ciphwren Notes](https://github.com/nikossvnk/ciphwren-notes) - end-to-end encrypted notes and
   bookmarks for Android.
-* [EteSync Web](https://github.com/nikossvnk/etesync-web) - an end-to-end encrypted web client for
+* [Ciphwren Web](https://github.com/nikossvnk/ciphwren-web) - an end-to-end encrypted web client for
   contacts, calendars and tasks.
-* [EteSync all-in-one](https://github.com/nikossvnk/etesync-aio) - notes, calendar, tasks and contacts
+* [Ciphwren Desktop](https://github.com/nikossvnk/ciphwren-desktop) - notes, calendar, tasks and contacts
   in one app.
 
 # Building Etebase
@@ -85,12 +85,12 @@ The build puts an ES module build in `dist/lib`, a CommonJS one in `dist/lib-cjs
 `src/Crypto.test.ts` and `src/Helpers.test.ts` run on their own. `src/Etebase.test.ts` needs an Etebase
 test server (one with `debug = true`, which has the endpoint the tests reset their users with). It
 defaults to `http://localhost:8033`, and can be changed with the environment variable
-`ETEBASE_TEST_API_URL`. The test server image of the [server](https://github.com/nikossvnk/etesync-server)
+`ETEBASE_TEST_API_URL`. The test server image of the [server](https://github.com/nikossvnk/ciphwren-server)
 is the easiest way to get one:
 
 ```shell
-docker build -t etebase-test-server -f docker/test-server/Dockerfile --build-arg ETESYNC_VERSION=master \
-  https://github.com/nikossvnk/etesync-server.git#master
+docker build -t etebase-test-server -f docker/test-server/Dockerfile --build-arg CIPHWREN_VERSION=master \
+  https://github.com/nikossvnk/ciphwren-server.git#master
 docker run -d --rm --name etebase-test -p 127.0.0.1:8033:3735 etebase-test-server
 
 npm test                                       # all of the tests
